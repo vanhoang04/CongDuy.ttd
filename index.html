@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Đăng Ký và Đăng Nhập</title>
+    <style> 
+	header {
+		text-align: center;
+		padding: 20px;
+	}
+	.form-container {
+		max-width: 400px;
+		margin: 0 auto;
+		padding: 20px;
+		background: rgba(254, 254, 254, 0.7);
+		border-radius: 5px;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	}
+
+	.form-toggle {
+		text-align: center;
+		margin-bottom: 20px;
+	}
+
+	.form-toggle button {
+		background: red;
+		color: #fff;
+		border: none;
+		padding: 10px 20px;
+		cursor: pointer;
+		margin: 5px;
+	}
+
+	.form-toggle button.active {
+		background: red;
+	}
+
+	.form-toggle button:hover b {
+		color: blue; 
+	}
+
+	.form {
+		display: none;
+	}
+
+	.form h2 {
+		text-align: center;
+		margin-bottom: 20px;
+	}
+
+	.form input, .form button {
+		width: calc(100% - 10px); 
+		padding: 10px;
+		margin: 10px 0;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		box-sizing: border-box;
+	}
+
+	.form button {
+		background: red;
+		color: #fff;
+		border: none;
+		cursor: pointer;
+	}
+
+	.form button:active b {
+		color: blue;
+	}
+	.form.hidden {
+		display: none;
+	}
+
+	.form:not(.hidden) {
+		display: block;
+	}
+    </style>
+</head>
+<header>
+	<img src="data:image/jpeg;base64,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" alt="Logo" class="logo">
+</header>
+<body>
+    <div class="form-container">
+        <div class="form-toggle">
+            <button id="login-toggle" onclick="toggleForm('login')"><b>Đăng Nhập</b></button>
+            <button id="register-toggle" onclick="toggleForm('register')"><b>Đăng Ký</b></button>
+        </div>
+        <form id="login-form" class="form" onsubmit="handleLogin(event)">
+            <h2><b>Đăng Nhập</b></h2>
+            <input type="email" id="login-email" placeholder="Email" required><br>
+            <input type="password" id="login-password" placeholder="Mật khẩu" required><br>
+            <button type="submit"><b>Đăng Nhập</b></button><br>
+        </form>
+        <form id="register-form" class="form hidden" onsubmit="handleRegister(event)">
+            <h2><b>Đăng Ký</b></h2>
+            <input type="text" id="register-username" placeholder="Tên đăng nhập" required><br>
+            <input type="email" id="register-email" placeholder="Email" required><br>
+            <input type="password" id="register-password" placeholder="Mật khẩu" required><br>
+            <input type="password" id="register-confirm-password" placeholder="Xác nhận mật khẩu" required><br><button type="submit"><b>Đăng Ký</B></button>
+        </form>
+    </div>
+    <script>
+	function toggleForm(form) {
+		var loginForm = document.getElementById('login-form');
+		var registerForm = document.getElementById('register-form');
+		var loginToggle = document.getElementById('login-toggle');
+		var registerToggle = document.getElementById('register-toggle');
+
+		if (form === 'login') {
+			loginForm.classList.remove('hidden');
+			registerForm.classList.add('hidden');
+			loginToggle.classList.add('active');
+			registerToggle.classList.remove('active');
+		} else {
+			loginForm.classList.add('hidden');
+			registerForm.classList.remove('hidden');
+			loginToggle.classList.remove('active');
+			registerToggle.classList.add('active');
+		}
+	}
+
+	document.addEventListener("DOMContentLoaded", function() {
+
+		if(localStorage.getItem('username') && localStorage.getItem('password')) {
+			toggleForm('login');
+		}
+	});
+
+	function handleLogin(event) {
+		event.preventDefault();
+		var username = document.getElementById('login-username').value;
+		var password = document.getElementById('login-password').value;
+
+		var storedPassword = localStorage.getItem('password');
+
+		if (password === storedPassword) {
+			alert("Đăng nhập thành công!");
+			window.location.href = "Trang Chủ.html"; 
+		} else {
+			alert("Tên đăng nhập hoặc mật khẩu không chính xác!");
+		}
+	}
+	function handleRegister(event) {
+		event.preventDefault();
+		var username = document.getElementById('register-username').value;
+		var email = document.getElementById('register-email').value;
+		var password = document.getElementById('register-password').value;
+		var confirmPassword = document.getElementById('register-confirm-password').value;
+
+		if (password !== confirmPassword) {
+			alert("Mật khẩu và xác nhận mật khẩu không khớp!");
+			return;
+		}
+
+	   
+		localStorage.setItem('username', username);
+		localStorage.setItem('email', email);
+		localStorage.setItem('password', password);
+
+		alert("Đăng ký thành công!");
+	   
+		window.location.href = "Trang Chủ.html"; 
+	}
+
+	function handleLogin(event) {
+		event.preventDefault();
+		var usernameOrEmail = document.getElementById('login-username').value;
+		var password = document.getElementById('login-password').value;
+
+	   
+		var storedUsername = localStorage.getItem('username');
+		var storedEmail = localStorage.getItem('email');
+		var storedPassword = localStorage.getItem('password');
+
+	   
+		if ((usernameOrEmail === storedUsername || usernameOrEmail === storedEmail) && password === storedPassword) {
+			alert("Đăng nhập thành công!");
+		   
+			window.location.href = "Trang Chủ.html"; 
+		} else {
+			alert("Tên đăng nhập hoặc email hoặc mật khẩu không chính xác!");
+		}
+	}
+	function handleRegister(event) {
+		event.preventDefault();
+		var username = document.getElementById('register-username').value;
+		var email = document.getElementById('register-email').value;
+		var password = document.getElementById('register-password').value;
+		var confirmPassword = document.getElementById('register-confirm-password').value;
+
+		if (password !== confirmPassword) {
+			alert("Mật khẩu và xác nhận mật khẩu không khớp!");
+			return;
+		}
+
+		localStorage.setItem('email', email);
+		localStorage.setItem('password', password);
+
+		alert("Đăng ký thành công!");
+		window.location.href = "index.html"; 
+	}
+
+	function handleLogin(event) {
+		event.preventDefault();
+		var email = document.getElementById('login-email').value;
+		var password = document.getElementById('login-password').value;
+
+	   
+		var storedEmail = localStorage.getItem('email');
+		var storedPassword = localStorage.getItem('password');
+
+	   
+		if (email === storedEmail && password === storedPassword) {
+			window.location.href = "110122058.html"; 
+		} else {
+			alert("Email hoặc mật khẩu không chính xác!");
+		}
+	}
+    </script>
+</body>
+</html>
